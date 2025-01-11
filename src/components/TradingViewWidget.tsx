@@ -17,21 +17,18 @@ function TradingViewWidget() {
     script.type = "text/javascript";
     script.async = true;
     script.innerHTML = `
-      {
-        "autosize": true,
-        "width": "881px",
-        "height": "771px",
-        "symbol": "NASDAQ:AAPL",
-        "interval": "D",
-        "timezone": "Etc/UTC",
-        "theme": "light",
-        "style": "1",
-        "backgroundColor": "rgba(255, 255, 255, 1)",
-        "locale": "en",
-        "allow_symbol_change": true,
-        "calendar": false,
-        "support_host": "https://www.tradingview.com"
-      }`;
+    {
+      "autosize": true,
+      "symbol": "BITSTAMP:BTCUSD",
+      "interval": "D",
+      "timezone": "Etc/UTC",
+      "theme": "light",
+      "style": "1",
+      "locale": "en",
+      "allow_symbol_change": true,
+      "calendar": false,
+      "support_host": "https://www.tradingview.com"
+    }`;
     container.current.appendChild(script);
 
     return () => {
@@ -50,6 +47,8 @@ function TradingViewWidget() {
         alignItems: "center",
         backgroundColor: "rgba(255, 255, 255, 1)",
         padding: "16px",
+        width: "881px",
+        height: "771px",
         boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
       }}
     >

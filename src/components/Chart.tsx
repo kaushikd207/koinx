@@ -20,15 +20,27 @@ function Chart() {
       <div className="max-w-[427px] max-h-[515px]">
         <img className="max-w-[427px] max-h-[515px]" src={sidePic} alt="" />
         <div className="bg-white h-[225px] mt-4">
-          <h1 className="text-lg p-7">Trending coins(24h)</h1>
+          <h1 className="text-lg p-4">Trending coins(24h)</h1>
           <div className=" flex items-center justify-center flex-wrap">
             {coins.slice(0, 3).map((coin) => (
               <ul className="w-[100%]">
-                <li className="flex justify-between px-5">
-                  {coin?.item?.name}
+                <li className="flex  px-5 items-center my-1">
                   <span>
-                    <img src={coin?.item?.small} alt="icon" />
+                    <img
+                      className="rounded-full w-10 mr-3"
+                      src={coin?.item?.small}
+                      alt="icon"
+                    />
                   </span>
+                  <div className="flex w-[100%] justify-between items-center">
+                    <p className="text-center">{coin?.item?.name}</p>
+                    <p className="ml-[237px] text-blue-700">
+                      {" "}
+                      {`${coin?.item?.data?.price_change_percentage_24h?.aed.toFixed(
+                        1
+                      )}%`}
+                    </p>
+                  </div>
                 </li>
               </ul>
             ))}
