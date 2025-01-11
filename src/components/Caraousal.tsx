@@ -1,8 +1,24 @@
 import { useRef } from "react";
 
-function Carousel({ items }) {
-  const carouselRef = useRef(null);
-  console.log(items);
+interface Item {
+  item: {
+    name: string;
+    small: string;
+    price_btc: number;
+    data: {
+      price_change_percentage_24h: { usd?: number };
+      sparkline: string;
+    };
+  };
+}
+
+interface CarouselProps {
+  items: Item[];
+}
+
+function Carousel({ items }: CarouselProps) {
+  const carouselRef = useRef<HTMLDivElement | null>(null); // Define type for carouselRef
+
   const scrollLeft = () => {
     if (carouselRef.current) {
       carouselRef.current.scrollBy({ left: -262, behavior: "smooth" });
@@ -29,7 +45,6 @@ function Carousel({ items }) {
         style={{ scrollSnapType: "x mandatory" }}
       >
         {items?.map((item, index) => {
-          console.log(item, "item");
           const priceChangeUsd =
             item?.item?.data?.price_change_percentage_24h?.usd || 0;
           return (
@@ -39,7 +54,11 @@ function Carousel({ items }) {
               style={{ scrollSnapAlign: "center" }}
             >
               <div className="text-lg font-semibold text-gray-700 flex">
-                <img className="w-6 rounded-full mr-3"src={item?.item?.small} alt="" />
+                <img
+                  className="w-6 rounded-full mr-3"
+                  src={item?.item?.small}
+                  alt=""
+                />
                 {item?.item?.name}
               </div>
               <div className="text-sm">
@@ -52,7 +71,7 @@ function Carousel({ items }) {
                 }`}
               >
                 <span className="font-medium">24h Change:</span>{" "}
-                {item?.item?.data?.price_change_percentage_24h?.usd?.toFixed(2)}
+                {item?.item?.data?.price_change_percentage_24h?.usd?.toFixed(2)}{" "}
                 %
               </div>
               <div className="flex justify-center">

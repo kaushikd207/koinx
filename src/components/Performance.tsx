@@ -1,12 +1,47 @@
 import { useEffect, useState } from "react";
 import bar from "../assets/barOnly.png";
 
+// Define the structure of the coin data to ensure TypeScript type safety
+type CoinData = {
+  market_data?: {
+    current_price?: {
+      usd?: number;
+    };
+    low_24h?: {
+      usd?: number;
+    };
+    high_24h?: {
+      usd?: number;
+    };
+    price_change_percentage_30d_in_currency?: {
+      usd?: number;
+    };
+    price_change_percentage_200d_in_currency?: {
+      usd?: number;
+    };
+    total_volume?: {
+      usd?: number;
+    };
+    market_cap_rank?: number; // Added market_cap_rank
+    market_cap?: {
+      usd?: number;
+    };
+    market_cap_change_percentage_24h?: number;
+    ath?: {
+      usd?: number;
+    };
+    atl?: {
+      usd?: number;
+    };
+  };
+};
+
 function Performance() {
   useEffect(() => {
     getCoinData();
   }, []);
 
-  const [coinData, setCoinData] = useState({});
+  const [coinData, setCoinData] = useState<CoinData>({});
 
   const getCoinData = async () => {
     try {
@@ -76,9 +111,12 @@ function Performance() {
                 </li>
                 <li className={liStyle}>
                   24h Low / High{" "}
-                  <p>${`${coinData?.market_data?.low_24h?.usd ?? "-"} / ${
-                    coinData?.market_data?.high_24h?.usd ?? "-"
-                  }`}</p>
+                  <p>
+                    $
+                    {`${coinData?.market_data?.low_24h?.usd ?? "-"} / ${
+                      coinData?.market_data?.high_24h?.usd ?? "-"
+                    }`}
+                  </p>
                 </li>
                 <li className={liStyle}>
                   7d Low / High{" "}
@@ -91,7 +129,8 @@ function Performance() {
                   <p>${coinData?.market_data?.total_volume?.usd ?? "-"}</p>
                 </li>
                 <li className={liStyle}>
-                  Market Cap Rank <p>#{coinData?.market_cap_rank ?? "-"}</p>
+                  Market Cap Rank{" "}
+                  <p>#{coinData?.market_data?.market_cap_rank ?? "-"}</p>
                 </li>
               </ul>
             </div>
@@ -112,17 +151,30 @@ function Performance() {
                 <li className={liStyle}>
                   Volume / Market Cap{" "}
                   <p>
-                    {coinData?.market_data?.total_volume?.usd /
-                      coinData?.market_data?.market_cap?.usd ?? "-"}
+                    {coinData?.market_data?.total_volume?.usd &&
+                    coinData?.market_data?.market_cap?.usd
+                      ? (
+                          coinData?.market_data?.total_volume?.usd /
+                          coinData?.market_data?.market_cap?.usd
+                        ).toFixed(2)
+                      : "-"}
                   </p>
                 </li>
                 <li className={liStyle}>
                   All Time High{" "}
-                  <p>{`$${coinData?.market_data?.ath?.usd}` ?? "-"}</p>
+                  <p>
+                    {coinData?.market_data?.ath?.usd
+                      ? `$${coinData?.market_data?.ath?.usd}`
+                      : "-"}
+                  </p>
                 </li>
                 <li className={liStyle}>
                   All Time Low{" "}
-                  <p>{`$${coinData?.market_data?.atl?.usd}` ?? "-"}</p>
+                  <p>
+                    {coinData?.market_data?.atl?.usd
+                      ? `$${coinData?.market_data?.atl?.usd}`
+                      : "-"}
+                  </p>
                 </li>
               </ul>
             </div>
